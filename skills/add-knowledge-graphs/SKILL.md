@@ -5,7 +5,7 @@ description: Add the 2D Knowledge Graph, 3D Knowledge Graph and/or 3D Semantic G
 
 # Add knowledge graphs to this app
 
-1. Read https://github.com/hungnv26/2d-3d-knowledge-graph/blob/main/AGENTS.md (or `node_modules/2d-3d-knowledge-graph/AGENTS.md` once installed) and follow it step by step.
+1. Read https://github.com/hungnv26/2d-3d-knowledge-graph/blob/main/AGENTS.md (or `node_modules/2d-3d-knowledge-graph/AGENTS.md` once installed from GitHub) and follow it step by step.
 2. Ask the user only what the code can't tell you:
    - which of the three graphs they want;
    - where their notes or records live, if that isn't obvious;

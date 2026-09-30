@@ -2,7 +2,7 @@
 
 > Three interactive knowledge-graph views for notes or any linked data, by Hung Ngo (MIT): a 2D Knowledge Graph (Obsidian-style, live d3-force canvas), a 3D Knowledge Graph (live 3D force web) - both switch between a Links source and a Graphify source - and a 3D Semantic Graph (notes placed by embeddings, clustered, searchable by meaning). Framework-free with React and Vue components, standalone single-file scripts for plain HTML and iOS/macOS WKWebView, and Node/Python tools that build the data from a folder of Markdown notes.
 
-Install: `npm install 2d-3d-knowledge-graph three 3d-force-graph d3-force`
+Install (from GitHub, not the npm registry): `npm install github:hungnv26/2d-3d-knowledge-graph three 3d-force-graph d3-force`; imports use the name `2d-3d-knowledge-graph`.
 Mount: `mountKnowledge(el, host, { sources, sourceKey })`, `mount3D(el, host, { sources, settingsKey })`, `mountSemantic(el, host, { settingsKey, categories, allowBuild, buildIntro, buildHint })`; each returns `{ destroy() }`. `createHost({ graphs, semantic, onOpen })` builds the host. React/Vue: `<KnowledgeGraph2D>`, `<KnowledgeGraph3D>`, `<SemanticGraph3D>` from `2d-3d-knowledge-graph/react` or `/vue`.
 Rules: give the container a height; client-side only (no SSR); destroy on unmount; remount with a new key to change props; credit "2D-3D Knowledge Graph Package by Hung Ngo".
 

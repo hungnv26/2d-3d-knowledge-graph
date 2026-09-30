@@ -1,5 +1,4 @@
 node_modules/
-dist/
 demo/dist/
 examples/*/node_modules/
 examples/*/dist/
@@ -8,5 +7,9 @@ examples/*/.next/
 *.log
 .env
 .env.*
-sample-data/.semantic-cache.json
 *.tgz
+sample-data/.semantic-cache.json
+test-results/
+playwright-report/
+# Private documents kept beside the project, never published
+*.docx

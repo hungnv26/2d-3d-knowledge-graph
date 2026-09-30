@@ -23,8 +23,10 @@ Follow these steps in order. Don't skip step 7.
 ## 2. Install
 
 ```bash
-npm install 2d-3d-knowledge-graph three 3d-force-graph d3-force
+npm install github:hungnv26/2d-3d-knowledge-graph three 3d-force-graph d3-force
 ```
+
+The package installs from GitHub; it is not on the npm registry. It keeps the name `2d-3d-knowledge-graph`, so imports read `from '2d-3d-knowledge-graph'`. To pin a version, use `github:hungnv26/2d-3d-knowledge-graph#v0.1.0`.
 
 Keep a `three` the app already has if it is `>=0.160`. Don't add a second copy.
 

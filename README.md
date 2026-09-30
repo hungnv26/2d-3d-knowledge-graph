@@ -74,8 +74,10 @@ Every note is embedded with a language model and placed in 3D, so **notes about 
 ## Install
 
 ```bash
-npm install 2d-3d-knowledge-graph three 3d-force-graph d3-force
+npm install github:hungnv26/2d-3d-knowledge-graph three 3d-force-graph d3-force
 ```
+
+It installs straight from GitHub, built files included; there is no npm registry release. Pin a version with `github:hungnv26/2d-3d-knowledge-graph#v0.1.0`.
 
 `three`, `3d-force-graph` and `d3-force` are peer dependencies, so your app shares one copy. React and Vue are optional.
 
@@ -131,14 +133,14 @@ The element needs a size, for example `position: relative; height: 600px`. The g
   window.KnowledgeGraphConfig = { sources: [{ id: 'links', label: 'Links', settingsKey: 'kg.links', url: 'links.json', groups: [] }] }
   addEventListener('knowledgegraph:open', (e) => console.log(e.detail.note))
 </script>
-<script src="https://cdn.jsdelivr.net/npm/2d-3d-knowledge-graph@0.1/dist/standalone/knowledge-graph.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/hungnv26/2d-3d-knowledge-graph@v0.1.0/dist/standalone/knowledge-graph.js"></script>
 ```
 
 Also available: `force3d-graph.js` and `semantic-graph.js`. Each is one file with its libraries and styles inside, and fills the page. The same scripts run in an iOS or macOS `WKWebView`: see [examples/ios-wkwebview](examples/ios-wkwebview/GraphView.swift).
 
 ## Your data
 
-Turn a folder of Markdown notes, such as an Obsidian vault, into the three data files:
+Turn a folder of Markdown notes, such as an Obsidian vault, into the three data files (after installing the package as above):
 
 ```bash
 # Links graph: [[wikilinks]], relative .md links, tags and titles

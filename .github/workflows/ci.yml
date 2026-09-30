@@ -13,6 +13,8 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run build
+      - name: The committed dist/ is up to date (people install it straight from GitHub)
+        run: git diff --exit-code -- dist
       - run: npm test
       - name: Size check (engine without its libraries stays small)
         run: test $(stat -c %s dist/index.js) -lt 220000
@@ -20,7 +22,7 @@ jobs:
         run: |
           for d in react-vite vue-vite; do (cd examples/$d && npm install --no-audit --no-fund && npx vite build); done
           cp sample-data/meridian/{links,graphify,semantic}.json dist/standalone/knowledge-graph.js examples/vanilla-html/
-          sed 's#https://cdn.jsdelivr.net/npm/2d-3d-knowledge-graph@0.1/dist/standalone/knowledge-graph.js#knowledge-graph.js#' examples/vanilla-html/index.html > examples/vanilla-html/local-test.html
+          sed 's#https://cdn.jsdelivr.net/gh/hungnv26/2d-3d-knowledge-graph@v0.1.0/dist/standalone/knowledge-graph.js#knowledge-graph.js#' examples/vanilla-html/index.html > examples/vanilla-html/local-test.html
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - if: failure()

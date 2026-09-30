@@ -73,7 +73,7 @@
     "test": "node --test test/*.test.mjs",
     "sample-data": "node sample-data/generate.mjs && npm run sample-data:build",
     "demo": "npm run demo:build && node demo/serve.mjs",
-    "prepublishOnly": "npm run typecheck && npm run build && npm test",
+
     "sample-data:build": "node tools/links/cli.mjs sample-data/meridian/notes --out sample-data/meridian/links.json && node tools/graphify/cli.mjs sample-data/meridian/graphify-out/graph.json --notes sample-data/meridian/notes --out sample-data/meridian/graphify.json",
     "sample-data:semantic": "uv run tools/semantic/build.py sample-data/meridian/notes --out sample-data/meridian/semantic.json --fields status,year,sector,type --cache sample-data/.semantic-cache.json",
     "demo:build": "node demo/build.mjs",
