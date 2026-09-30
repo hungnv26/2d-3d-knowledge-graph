@@ -50,8 +50,8 @@
     "./package.json": "./package.json"
   },
   "bin": {
-    "kg-links": "./tools/links/cli.mjs",
-    "kg-graphify": "./tools/graphify/cli.mjs"
+    "kg-links": "tools/links/cli.mjs",
+    "kg-graphify": "tools/graphify/cli.mjs"
   },
   "files": [
     "dist",
