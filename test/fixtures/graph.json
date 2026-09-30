@@ -1,0 +1,9 @@
+{"directed":false,"multigraph":false,"graph":{},"nodes":[
+{"id":"doc_fold","label":"Fold Drive","file_type":"document","source_file":"wiki/concepts/fold-drive.md","community":0,"community_name":"Propulsion"},
+{"id":"c_drift","label":"Resonance drift","file_type":"concept","source_file":"concepts/resonance.md","community":0,"community_name":"Propulsion"},
+{"id":"c_lost","label":"Lost idea","file_type":"concept","source_file":"gone/missing.md","community":1,"community_name":"Other"},
+{"id":"c_name","label":"Named elsewhere","file_type":"concept","source_file":"old-folder/captain-ines.md","community":1,"community_name":"Other"}],
+"links":[
+{"source":"doc_fold","target":"c_drift","relation":"references","confidence":"EXTRACTED"},
+{"source":"c_drift","target":"c_lost","relation":"semantically_similar_to","confidence":"INFERRED"},
+{"source":"c_lost","target":"c_name","relation":"conceptually_related_to","confidence":"AMBIGUOUS"}]}

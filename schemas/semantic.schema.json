@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/hungnv26/2d-3d-knowledge-graph/schemas/semantic.schema.json",
+  "title": "Semantic layout (3D Semantic Graph)",
+  "description": "What tools/semantic/build.py writes and createStaticSemantic() serves.",
+  "type": "object",
+  "required": ["nodes", "clusters", "links"],
+  "properties": {
+    "built_at": { "type": "string" },
+    "model": { "type": "string" },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "x", "y", "z", "cluster", "degree"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "path": { "type": "string" },
+          "folder": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "x": { "type": "number" }, "y": { "type": "number" }, "z": { "type": "number" },
+          "cluster": { "type": "number" },
+          "degree": { "type": "number" }
+        }
+      }
+    },
+    "clusters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "size", "center_id"],
+        "properties": { "id": { "type": "number" }, "label": { "type": "string" }, "size": { "type": "number" }, "center_id": { "type": "string" } }
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": { "type": "object", "required": ["source", "target"], "properties": { "source": { "type": "string" }, "target": { "type": "string" } } }
+    },
+    "vectors": {
+      "type": "object",
+      "required": ["dims", "encoding", "data"],
+      "properties": { "dims": { "type": "number" }, "encoding": { "enum": ["int8-base64"] }, "data": { "type": "string" } }
+    }
+  }
+}

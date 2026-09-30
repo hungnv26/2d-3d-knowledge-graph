@@ -1,0 +1,5 @@
+/* Standalone scripts only: the graph fills the whole page or web view.
+   Apps that mount a graph into their own layout never load this. */
+html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+#app { position: fixed; inset: 0; }

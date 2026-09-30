@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/hungnv26/2d-3d-knowledge-graph/schemas/links-graph.schema.json",
+  "title": "Knowledge graph (Links or Graphify source)",
+  "description": "What the 2D and 3D Knowledge Graphs draw. kg-links writes the Links graph from Markdown notes; kg-graphify writes the Graphify graph from Graphify's graph.json.",
+  "type": "object",
+  "required": ["nodes", "edges"],
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title"],
+        "properties": {
+          "id": { "type": "string", "description": "Unique. For notes, the path relative to the notes folder." },
+          "title": { "type": "string" },
+          "category": { "type": "string", "description": "Top folder or any grouping (informational)." },
+          "linkCount": { "type": "number", "description": "Links touching the node; the node limit keeps the most connected." },
+          "path": { "type": "string", "description": "Note path used by path: searches and colour groups. Defaults to id." },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "note": { "type": ["string", "null"], "description": "Graphify: the note the node was extracted from; opened on click." },
+          "community": { "type": ["number", "null"] },
+          "communityName": { "type": "string" },
+          "type": { "type": "string", "description": "Graphify: document, concept, rationale or paper." }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to"],
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "relation": { "type": "string" },
+          "inferred": { "type": "boolean", "description": "Graphify reasoned this link rather than reading it; drawn with a warm tint." }
+        }
+      }
+    }
+  }
+}

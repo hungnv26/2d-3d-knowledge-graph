@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2D Knowledge Graph · no build step</title>
+</head>
+<body>
+<div id="app"></div>
+<!--
+  The standalone scripts need nothing else: libraries and styles are inside.
+  Serve this folder with any static server, next to links.json and graphify.json
+  (for example: npx serve . after copying sample-data/meridian/*.json here).
+-->
+<script>
+  window.KnowledgeGraphConfig = {
+    sources: [
+      { id: 'links', label: 'Links', settingsKey: 'kg.links', url: 'links.json', noun: 'notes',
+        groups: [{ query: 'path:worlds/', color: '#52b1e0' }, { query: 'path:species/', color: '#52e052' }, { query: 'path:maps/', color: '#ffffff' }] },
+      { id: 'graphify', label: 'Graphify', settingsKey: 'kg.graphify', url: 'graphify.json', graphify: true, noun: 'nodes', groups: [] },
+    ],
+  }
+  // A node was opened: show event.detail.note, highlighting event.detail.quote.
+  window.addEventListener('knowledgegraph:open', (e) => console.log('open', e.detail))
+</script>
+<script src="https://cdn.jsdelivr.net/npm/2d-3d-knowledge-graph@0.1/dist/standalone/knowledge-graph.js"></script>
+</body>
+</html>

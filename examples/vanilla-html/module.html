@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All three graphs · ES modules from a CDN</title>
+<style>html, body { margin: 0; height: 100%; background: #111; } nav { padding: 8px; } #graph { position: relative; height: calc(100% - 44px); }</style>
+<script type="importmap">
+{ "imports": {
+  "2d-3d-knowledge-graph": "https://esm.sh/2d-3d-knowledge-graph@0.1?external=three,3d-force-graph,d3-force",
+  "three": "https://esm.sh/three@0.186.1",
+  "three/": "https://esm.sh/three@0.186.1/",
+  "3d-force-graph": "https://esm.sh/3d-force-graph@1.80.0?external=three",
+  "d3-force": "https://esm.sh/d3-force@3"
+} }
+</script>
+</head>
+<body>
+<nav><button data-g="2d">2D</button> <button data-g="3d">3D</button> <button data-g="semantic">Semantic</button></nav>
+<div id="graph"></div>
+<script type="module">
+  import { createHost, createStaticSemantic, mount3D, mountKnowledge, mountSemantic } from '2d-3d-knowledge-graph'
+
+  const sources = [
+    { id: 'links', label: 'Links', settingsKey: 'kg.links', groups: [{ query: 'path:worlds/', color: '#52b1e0' }] },
+    { id: 'graphify', label: 'Graphify', settingsKey: 'kg.graphify', graphify: true, groups: [] },
+  ]
+  const host = createHost({
+    graphs: { links: 'links.json', graphify: 'graphify.json' },
+    semantic: createStaticSemantic('semantic.json'),
+    onOpen: (t) => alert(`Open ${t.note}${t.quote ? ` at “${t.quote}”` : ''}`),
+  })
+  const el = document.getElementById('graph')
+  let page = null
+  const show = (g) => {
+    page?.destroy()
+    page = g === '2d' ? mountKnowledge(el, host, { sources, sourceKey: 'kg.source' })
+      : g === '3d' ? mount3D(el, host, { sources, settingsKey: 'kg.3d' })
+        : mountSemantic(el, host, { settingsKey: 'kg.semantic', categories: [{ id: 'folder', label: 'Folder', field: 'folder' }], allowBuild: false, buildIntro: '', buildHint: '' })
+  }
+  document.querySelectorAll('[data-g]').forEach((b) => b.addEventListener('click', () => show(b.dataset.g)))
+  show('2d')
+</script>
+</body>
+</html>

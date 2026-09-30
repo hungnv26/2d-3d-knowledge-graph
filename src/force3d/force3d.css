@@ -1,0 +1,113 @@
+/* Everything is scoped to the page root, so a graph can live inside any app's
+   layout as well as fill a whole page or web view. */
+.g3 { --accent: #8b7cf6; color-scheme: dark;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Helvetica, Arial, sans-serif;
+  -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+.g3, .g3 *, .g3 *::before, .g3 *::after { box-sizing: border-box; }
+.g3 button { font: inherit; color: inherit; }
+
+.g3 { position: absolute; inset: 0; background: #101216; color: #dcdcdc; font-size: 13px; }
+.g3__canvas { position: absolute; inset: 0; touch-action: none; z-index: 0; }
+/* Controls sit above the floating name labels. */
+.g3__top, .g3__dock, .g3__gear, .g3__panel, .g3__card, .g3__hud, .g3__msg { z-index: 2; }
+.g3__msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #8a8f99; font-size: 14px; pointer-events: none; }
+.g3__msg[hidden] { display: none; }
+.g3__hud { position: absolute; left: 12px; bottom: 12px; font-size: 11px; color: #8a8f99; pointer-events: none; }
+
+/* Top left: which graph, and the local graph's controls. */
+.g3__top { position: absolute; top: 12px; left: 12px; right: 60px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; pointer-events: none; }
+.g3__top > * { pointer-events: auto; }
+.g3__seg { display: inline-flex; gap: 2px; padding: 2px; border-radius: 9px; background: rgba(30, 32, 38, .92); border: 1px solid #33363f; }
+.g3__segb { height: 28px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; color: #a3a9b5; cursor: pointer; font-size: 12px; }
+.g3__segb:hover:not(:disabled) { color: #fff; }
+.g3__segb.is-active { background: #3a3d47; color: #fff; }
+.g3__segb:disabled { opacity: .5; cursor: default; }
+.g3__seg--small { background: #1b1c20; }
+.g3__seg--small .g3__segb { height: 24px; padding: 0 9px; }
+.g3__local { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 4px 0 12px; border-radius: 17px;
+  background: rgba(30, 32, 38, .92); border: 1px solid color-mix(in srgb, var(--accent) 55%, #33363f); max-width: 100%; }
+.g3__local-t { font-size: 12px; color: #b9bec8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.g3__local-t b { color: #fff; font-weight: 600; }
+.g3__depth { display: inline-flex; align-items: center; gap: 2px; font-size: 12px; color: #fff; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.g3__chip { height: 28px; padding: 0 12px; border-radius: 14px; border: 1px solid #3a3d47; background: transparent; color: #d4d7de; cursor: pointer; font-size: 12px; white-space: nowrap; flex-shrink: 0; }
+.g3__chip:hover { background: #2c2f37; color: #fff; }
+
+/* Bottom right: orbit transport and fit, like the 3D Semantic Graph. */
+.g3__dock { position: absolute; right: 12px; bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.g3__transport { display: inline-flex; align-items: center; gap: 2px; height: 34px; padding: 0 4px; border: 1px solid #33363f; border-radius: 17px; background: rgba(30, 32, 38, .92); }
+.g3__tbtn { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border: 0; border-radius: 14px; background: transparent; color: #b8bcc6; cursor: pointer; padding: 0; }
+.g3__tbtn svg { width: 15px; height: 15px; }
+.g3__tbtn:hover:not(:disabled) { background: #33363f; color: #fff; }
+.g3__tbtn.is-active { background: color-mix(in srgb, var(--accent) 28%, transparent); color: #fff; }
+.g3__tbtn:disabled { opacity: .35; cursor: default; }
+.g3__speed { min-width: 40px; text-align: center; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; color: #fff; }
+.g3__round, .g3__gear { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; border-radius: 17px;
+  border: 1px solid #33363f; background: rgba(30, 32, 38, .92); color: #b8bcc6; cursor: pointer; padding: 0; }
+.g3__round:hover, .g3__gear:hover { background: #33363f; color: #fff; }
+.g3__gear { position: absolute; top: 12px; right: 12px; border-radius: 8px; }
+
+/* Settings panel: Obsidian's, floating top right. */
+.g3__panel {
+  position: absolute; top: 12px; right: 12px; width: min(300px, calc(100vw - 24px)); max-height: calc(100% - 70px); overflow: auto;
+  border-radius: 10px; border: 1px solid #33363f; background: rgba(34, 36, 42, .96);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 8px 28px rgba(0, 0, 0, .45);
+}
+.g3__sec { border-bottom: 1px solid #33363f; }
+.g3__sec:last-child { border-bottom: 0; }
+.g3__sec-h { display: flex; align-items: center; justify-content: space-between; padding: 10px 10px 10px 8px; }
+.g3__sec-t { display: inline-flex; align-items: center; gap: 4px; border: 0; background: transparent; font-size: 15px; font-weight: 600; cursor: pointer; padding: 0; }
+.g3__sec-tools { display: inline-flex; gap: 2px; }
+.g3__sec-tools button, .g3__x { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 6px;
+  background: transparent; color: #a0a4ad; cursor: pointer; padding: 0; flex-shrink: 0; }
+.g3__sec-tools button:hover, .g3__x:hover { background: #3a3d47; color: #fff; }
+.g3__sec-b { padding: 0 14px 12px; display: flex; flex-direction: column; gap: 10px; }
+.g3__sec.is-closed .g3__sec-b { display: none; }
+.g3__search { display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 10px; border-radius: 8px; background: #1b1c20; color: #8a8f99; }
+.g3__search input, .g3__group-q { flex: 1; min-width: 0; border: 0; background: transparent; color: #e6e6e6; font: inherit; outline: none; -webkit-user-select: text; user-select: text; }
+.g3__hint { font-size: 11px; color: #7a7f89; line-height: 15px; }
+.g3__row { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 28px; }
+.g3__switch { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
+.g3__switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.g3__switch span { position: absolute; inset: 0; border-radius: 10px; background: #4a4d55; transition: background .18s ease; pointer-events: none; }
+.g3__switch span::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform .18s ease; }
+.g3__switch input:checked + span { background: var(--accent); }
+.g3__switch input:checked + span::after { transform: translateX(16px); }
+.g3__slider { display: flex; flex-direction: column; gap: 4px; }
+.g3__slider input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; }
+.g3__select { height: 28px; max-width: 150px; padding: 0 8px; border-radius: 8px; border: 1px solid #33363f; background: #1b1c20; color: #e6e6e6; font: inherit; }
+.g3__groups { display: flex; flex-direction: column; gap: 10px; }
+.g3__group { display: flex; align-items: center; gap: 8px; }
+.g3__group-q { height: 32px; padding: 0 10px; border-radius: 8px; background: #1b1c20; }
+.g3__group-q:focus { box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 55%, transparent); }
+.g3__swatch { position: relative; width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; cursor: pointer; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .35); }
+.g3__swatch input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; padding: 0; border: 0; }
+.g3__new { height: 32px; border-radius: 8px; border: 0; background: #1b1c20; cursor: pointer; }
+.g3__new:hover { background: #33363f; }
+
+/* The selected note. */
+.g3__card {
+  position: absolute; left: 12px; right: 12px; bottom: 56px; margin: 0 auto; max-width: 520px;
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px;
+  border: 1px solid #33363f; background: rgba(34, 36, 42, .97); box-shadow: 0 8px 28px rgba(0, 0, 0, .45);
+}
+.g3__card[hidden] { display: none; }
+.g3__card-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.g3__card-t { flex: 1; min-width: 0; }
+.g3__card-title { font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.g3__card-sub { font-size: 11px; color: #9a9ea8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.g3__open { height: 30px; padding: 0 14px; border-radius: 8px; border: 0; background: var(--accent); color: #fff; font-weight: 600; cursor: pointer; flex-shrink: 0; }
+.g3__open:disabled { background: #3a3d47; color: #9a9ea8; cursor: default; }
+
+/* Hover tooltip and the floating name labels. */
+.g3__tip { padding: 3px 8px; border-radius: 6px; background: #1f2230; color: #e4e7ef; font-size: 12px; border: 1px solid #343a4f; font-family: -apple-system, "SF Pro Text", Helvetica, sans-serif; }
+.g3__tip small { display: block; color: #8f96a8; font-size: 10.5px; }
+.g3__label { padding: 1px 6px; border-radius: 5px; background: rgba(16, 18, 22, .72); color: #e6e8ee; font-size: 11px; white-space: nowrap;
+  font-family: -apple-system, "SF Pro Text", Helvetica, sans-serif; pointer-events: none; transform: translateY(-4px); }
+.g3__label.is-focus { color: #fff; font-weight: 600; font-size: 12px; border: 1px solid color-mix(in srgb, var(--accent) 70%, transparent); }
+
+/* Phone width. */
+.g3.is-compact .g3__card { flex-wrap: wrap; }
+.g3.is-compact .g3__card-t { flex-basis: calc(100% - 24px); }
+.g3.is-compact .g3__card .g3__chip, .g3.is-compact .g3__open { flex: 1; }
+.g3.is-compact .g3__hud { bottom: 54px; }

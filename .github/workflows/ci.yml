@@ -1,0 +1,28 @@
+name: CI
+on:
+  push: { branches: [main] }
+  pull_request:
+permissions: { contents: read }
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm test
+      - name: Size check (engine without its libraries stays small)
+        run: test $(stat -c %s dist/index.js) -lt 220000
+      - name: Examples
+        run: |
+          for d in react-vite vue-vite; do (cd examples/$d && npm install --no-audit --no-fund && npx vite build); done
+          cp sample-data/meridian/{links,graphify,semantic}.json dist/standalone/knowledge-graph.js examples/vanilla-html/
+          sed 's#https://cdn.jsdelivr.net/npm/2d-3d-knowledge-graph@0.1/dist/standalone/knowledge-graph.js#knowledge-graph.js#' examples/vanilla-html/index.html > examples/vanilla-html/local-test.html
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with: { name: playwright-report, path: test-results }

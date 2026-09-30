@@ -1,0 +1,113 @@
+{
+  "name": "2d-3d-knowledge-graph",
+  "version": "0.1.0",
+  "description": "2D-3D Knowledge Graph Package: an Obsidian-style 2D knowledge graph, a live 3D knowledge graph (both with a Graphify view) and a 3D semantic graph. Framework-free, with React and Vue components.",
+  "author": "Hung Ngo (https://hungngo.net)",
+  "license": "MIT",
+  "homepage": "https://github.com/hungnv26/2d-3d-knowledge-graph#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hungnv26/2d-3d-knowledge-graph.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hungnv26/2d-3d-knowledge-graph/issues"
+  },
+  "keywords": [
+    "knowledge-graph",
+    "graph",
+    "3d-graph",
+    "force-graph",
+    "semantic-graph",
+    "graphify",
+    "obsidian-style",
+    "notes",
+    "react",
+    "vue",
+    "three.js",
+    "d3-force"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "./dist/standalone/*"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/types/react/index.d.ts",
+      "import": "./dist/react.js"
+    },
+    "./vue": {
+      "types": "./dist/types/vue/index.d.ts",
+      "import": "./dist/vue.js"
+    },
+    "./standalone/*": "./dist/standalone/*",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "kg-links": "./tools/links/cli.mjs",
+    "kg-graphify": "./tools/graphify/cli.mjs"
+  },
+  "files": [
+    "dist",
+    "tools/links",
+    "tools/graphify",
+    "tools/semantic/build.py",
+    "schemas",
+    "AGENTS.md",
+    "llms.txt",
+    "NOTICE",
+    "CHANGELOG.md",
+    "docs/api.md",
+    "docs/data-formats.md",
+    "docs/recipes.md"
+  ],
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test test/*.test.mjs",
+    "sample-data": "node sample-data/generate.mjs && npm run sample-data:build",
+    "demo": "npm run demo:build && node demo/serve.mjs",
+    "prepublishOnly": "npm run typecheck && npm run build && npm test",
+    "sample-data:build": "node tools/links/cli.mjs sample-data/meridian/notes --out sample-data/meridian/links.json && node tools/graphify/cli.mjs sample-data/meridian/graphify-out/graph.json --notes sample-data/meridian/notes --out sample-data/meridian/graphify.json",
+    "sample-data:semantic": "uv run tools/semantic/build.py sample-data/meridian/notes --out sample-data/meridian/semantic.json --fields status,year,sector,type --cache sample-data/.semantic-cache.json",
+    "demo:build": "node demo/build.mjs",
+    "test:e2e": "playwright test"
+  },
+  "peerDependencies": {
+    "3d-force-graph": "^1.80.0",
+    "d3-force": "^3.0.0",
+    "react": ">=17",
+    "three": ">=0.160.0",
+    "vue": ">=3.3"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.0",
+    "@types/d3-force": "^3.0.10",
+    "@types/react": "^18.3.0",
+    "@types/three": "^0.186.0",
+    "3d-force-graph": "^1.80.0",
+    "d3-force": "^3.0.0",
+    "esbuild": "^0.25.0",
+    "react": "^18.3.1",
+    "three": "^0.186.1",
+    "typescript": "^5.6.0",
+    "vue": "^3.5.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

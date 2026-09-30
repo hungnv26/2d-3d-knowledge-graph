@@ -1,0 +1,129 @@
+/* Everything is scoped to the page root, so a graph can live inside any app's
+   layout as well as fill a whole page or web view. */
+.og { --accent: #8b7cf6; color-scheme: dark;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Helvetica, Arial, sans-serif;
+  -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+.og, .og *, .og *::before, .og *::after { box-sizing: border-box; }
+.og button { font: inherit; color: inherit; }
+
+.og { position: absolute; inset: 0; background: #1e1e1e; color: #dcdcdc; }
+.og__canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+.og__canvas.is-grabbing { cursor: grabbing; }
+.og__canvas.is-pointer { cursor: pointer; }
+.og__hud { position: absolute; left: 12px; right: 130px; bottom: 10px; font-size: 11px; letter-spacing: .03em; color: #8a8a8a; pointer-events: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* A phone has no room beside the zoom buttons: the line sits above them. */
+@media (max-width: 560px) { .og__hud { right: 12px; bottom: 50px; } }
+.og__msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #8a8a8a; font-size: 14px; pointer-events: none; }
+
+.og__zoom { position: absolute; right: 12px; bottom: 10px; display: flex; gap: 4px; }
+.og__zoom button, .og__gear {
+  width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 8px; border: 1px solid #363636; background: #2a2a2a; color: #b8b8b8; cursor: pointer; padding: 0;
+}
+.og__zoom button:hover, .og__gear:hover { background: #333; color: #fff; }
+.og__gear { position: absolute; top: 12px; right: 12px; }
+
+/* Obsidian's graph settings panel: floating, top-right, collapsible sections. */
+.og__panel {
+  position: absolute; top: 12px; right: 12px; width: min(300px, calc(100vw - 24px)); max-height: calc(100% - 24px); overflow: auto;
+  border-radius: 10px; border: 1px solid #363636; background: rgba(38, 38, 38, .96);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .45); font-size: 13px; color: #dcdcdc;
+  -webkit-user-select: none; user-select: none;
+}
+.og__sec { border-bottom: 1px solid #363636; }
+.og__sec:last-child { border-bottom: 0; }
+.og__sec-h { display: flex; align-items: center; justify-content: space-between; padding: 10px 10px 10px 8px; }
+.og__sec-t { display: inline-flex; align-items: center; gap: 4px; border: 0; background: transparent; font-size: 15px; font-weight: 600; cursor: pointer; padding: 0; }
+.og__sec-tools { display: inline-flex; gap: 2px; }
+.og__sec-tools button, .og__x {
+  width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 6px;
+  background: transparent; color: #a0a0a0; cursor: pointer; padding: 0; flex-shrink: 0;
+}
+.og__sec-tools button:hover, .og__x:hover { background: #3a3a3a; color: #fff; }
+.og__sec-b { padding: 0 14px 12px; display: flex; flex-direction: column; gap: 10px; }
+.og__sec.is-closed .og__sec-b { display: none; }
+
+.og__search { display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 10px; border-radius: 8px; background: #1b1b1b; color: #8a8a8a; }
+.og__search input, .og__group-q {
+  flex: 1; min-width: 0; border: 0; background: transparent; color: #e6e6e6; font: inherit; outline: none;
+  -webkit-user-select: text; user-select: text;
+}
+.og__clear { border: 0; background: transparent; color: #8a8a8a; cursor: pointer; display: inline-flex; padding: 0; }
+.og__hint { font-size: 11px; color: #7a7a7a; line-height: 15px; }
+.og__row { display: flex; align-items: center; justify-content: space-between; min-height: 28px; }
+
+/* Switch */
+.og__switch { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
+.og__switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.og__switch span { position: absolute; inset: 0; border-radius: 10px; background: #4a4a4a; transition: background .18s ease; pointer-events: none; }
+.og__switch span::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform .18s ease; }
+.og__switch input:checked + span { background: var(--accent); }
+.og__switch input:checked + span::after { transform: translateX(16px); }
+
+/* Force animation transport, like the 3D graph's orbit controls. */
+.og__transport { display: inline-flex; align-items: center; gap: 2px; height: 32px; padding: 0 3px; border: 1px solid #3a3a3a; border-radius: 16px; background: #1b1b1b; }
+.og__tbtn { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border: 0; border-radius: 14px; background: transparent; color: #b8b8b8; cursor: pointer; padding: 0; }
+.og__tbtn svg { width: 15px; height: 15px; }
+.og__tbtn:hover:not(:disabled) { background: #333; color: #fff; }
+.og__tbtn.is-active { background: color-mix(in srgb, var(--accent) 28%, transparent); color: #fff; }
+.og__tbtn:disabled { opacity: .35; cursor: default; }
+.og__speed { min-width: 38px; text-align: center; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; color: #fff; }
+
+.og__slider { display: flex; flex-direction: column; gap: 4px; }
+.og__slider input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; }
+
+.og__group { display: flex; align-items: center; gap: 8px; }
+.og__group-q { height: 32px; padding: 0 10px; border-radius: 8px; background: #1b1b1b; }
+.og__group-q:focus { box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 55%, transparent); }
+.og__swatch { position: relative; width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; cursor: pointer; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .35); }
+.og__swatch input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; padding: 0; border: 0; }
+.og__new { height: 32px; border-radius: 8px; border: 0; background: #1b1b1b; cursor: pointer; }
+.og__new:hover { background: #333; }
+
+/* Touch: a tapped note shows a card with an Open button. */
+.og__card {
+  position: absolute; left: 12px; right: 12px; bottom: 52px; margin: 0 auto; max-width: 460px;
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px;
+  border: 1px solid #363636; background: rgba(38, 38, 38, .97); box-shadow: 0 8px 28px rgba(0, 0, 0, .45);
+}
+.og__card[hidden] { display: none; }
+.og__card-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.og__card-t { flex: 1; min-width: 0; }
+.og__card-title { font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.og__card-sub { font-size: 11px; color: #9a9a9a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.og__card-open { height: 32px; padding: 0 14px; border-radius: 8px; border: 0; background: var(--accent); color: #fff; font-weight: 600; cursor: pointer; flex-shrink: 0; }
+
+.og__select { height: 28px; max-width: 150px; padding: 0 8px; border-radius: 8px; border: 1px solid #363636; background: #1b1b1b; color: #e6e6e6; font: inherit; }
+.og__card-open:disabled { background: #3a3a3a; color: #9a9a9a; cursor: default; }
+
+/* Colour by: a section of the settings panel (Graphify only). */
+.og__lmodes { display: flex; gap: 4px; padding: 2px; margin-bottom: 8px; border-radius: 8px; background: #1b1b1b; }
+.og__lmode { flex: 1; height: 26px; border: 0; border-radius: 6px; background: transparent; color: #9aa3b2; cursor: pointer; font-size: 12px; }
+.og__lmode:hover { color: #e4e8ef; }
+.og__lmode.is-active { background: #3a3a3a; color: #fff; }
+.og__lrow { display: flex; align-items: center; gap: 8px; padding: 4px 0; cursor: pointer; }
+.og__lrow.is-static { cursor: default; color: #8d96a5; }
+.og__lrow.is-dim { opacity: .42; }
+.og__lrow.is-focus .og__llabel { color: #fff; font-weight: 600; }
+.og__lswatch { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.og__llabel { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.og__ln { color: #8d96a5; font-variant-numeric: tabular-nums; }
+.og__lhint { margin: 8px 0; font-size: 11px; line-height: 15px; color: #7e8797; }
+.og__lhint b { color: #aab3c2; font-weight: 600; }
+.og__lkey { display: flex; align-items: center; gap: 8px; padding: 2px 0; font-size: 11px; color: #9aa3b2; }
+.og__lline { width: 22px; height: 0; border-top: 2px solid rgba(255, 255, 255, .35); flex-shrink: 0; }
+.og__lline--inferred { border-top-color: rgba(255, 214, 120, .9); }
+.og__lhub { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; background: #e0b152; box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .75); }
+
+/* Which graph the page draws: the links you wrote, or Graphify's. */
+.og__source { position: absolute; top: 12px; left: 12px; display: inline-flex; gap: 2px; padding: 2px; border-radius: 9px; background: rgba(38, 38, 38, .96); border: 1px solid #363636; }
+.og__srcb { height: 28px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; color: #a3a3a3; cursor: pointer; font-size: 12px; }
+.og__srcb:hover:not(:disabled) { color: #fff; }
+.og__srcb.is-active { background: #3a3a3a; color: #fff; }
+.og__srcb:disabled { opacity: .5; cursor: default; }
+
+/* The settings panel opens over the source switch and the legend, not under them. */
+.og__source { z-index: 2; }
+.og__panel { z-index: 3; }
